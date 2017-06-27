@@ -28,6 +28,9 @@ defmodule Pbt.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      { :triq, github: "triqng/triq", only: :test },
+      { :excheck, "0.5.3", only: :test }
+    ]
   end
 end
