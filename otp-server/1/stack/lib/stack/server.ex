@@ -23,10 +23,17 @@ defmodule Stack.Server do
     { :reply, head, tail }
   end
   def handle_call(:pop, _from, []) do
-    { :reply, nil, [] }
+    raise "Exception"
   end
 
+  def handle_cast({ :push, element }, _) when is_integer(element) and element < 10 do
+    raise "Element must be greater or equal than 10"
+  end
   def handle_cast({ :push, element }, current_stack) do
     { :noreply, [ element | current_stack ] }
+  end
+
+  def terminate(reason, state) do
+    IO.puts "Terminate, reason: #{inspect(reason)}, state: #{inspect(state)}"
   end
 end
