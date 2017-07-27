@@ -47,3 +47,18 @@ defimpl Enumerable, for: Bitmap do
     { :suspended, acc, &_reduce({bitmap, bit_number}, &1, fun), fun }
   end
 end
+
+defimpl Collectable, for: Bitmap do
+  use Bitwise
+
+  def into(%Bitmap{value: target}) do
+    {
+      target,
+      fn
+        acc, {:cont, next_bit} -> (acc <<< 1) ||| next_bit
+        acc,  :done            -> %Bitmap{value: acc}
+        _, :halt               -> :ok
+      end
+    }
+  end
+end
